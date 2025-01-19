@@ -1,0 +1,42 @@
+name: Deploy to Netlify and Heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Build frontend
+      run: |
+        cd src/client && npm run build
+
+    - name: Deploy frontend to Netlify
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      run: |
+        curl -sL https://github.com/netlify/cli/releases/download/v3.8.0/netlify-cli-linux-x64.tar.gz | tar xz -C /tmp
+        /tmp/netlify-cli-linux-x64/netlify deploy --prod --dir=src/client/build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+
+    - name: Deploy backend to Heroku
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        git remote add heroku https://git.heroku.com/your-app-name.git
+        git push heroku main
