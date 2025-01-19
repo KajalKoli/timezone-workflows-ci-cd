@@ -7,3 +7,5 @@
 #client - handles the UI part i.e "get current times" button and lists with times
 
 .github - contains the workflows <b> automate the deployment/testing </b> of webapp <b> timezone </b>
+
+update1
