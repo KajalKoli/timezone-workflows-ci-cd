@@ -24,7 +24,8 @@ jobs:
 
     - name: Build frontend
       run: |
-        cd src/client && npm run build
+        cd src/client && npm install
+        npm run build
 
     - name: Deploy frontend to Netlify
       env:
