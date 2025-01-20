@@ -32,7 +32,7 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       run: |
-        curl -sL https://github.com/netlify/cli/releases/download/v3.8.0/netlify-cli-linux-x64.tar.gz | tar xz -C /tmp
+        curl -sL https://github.com/netlify/cli/archive/refs/tags/v18.0.1.tar.gz | tar xz -C /tmp
         /tmp/netlify-cli-linux-x64/netlify deploy --prod --dir=src/client/build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
 
     - name: Deploy backend to Heroku
